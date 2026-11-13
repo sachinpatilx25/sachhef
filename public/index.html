@@ -2,445 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HefShine Recordings Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #090d16;
-      --card-bg: rgba(20, 27, 45, 0.75);
-      --border: rgba(255, 255, 255, 0.08);
-      --primary: #3b82f6;
-      --primary-hover: #1d4ed8;
-      --accent: #10b981;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at 10% 20%, #1e1b4b 0%, #090d16 90%);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 30px 16px;
-    }
-    .container { max-width: 1050px; margin: 0 auto; }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .brand { display: flex; align-items: center; gap: 14px; }
-    .brand-icon {
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
-    }
-    .brand-icon svg { width: 28px; height: 28px; fill: white; }
-    h1 { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.5px; }
-    .subtitle { color: var(--text-muted); font-size: 0.85rem; margin-top: 3px; }
-    .header-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .btn {
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary {
-      background: linear-gradient(135deg, #3b82f6, #2563eb);
-      color: white;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
-    }
-    .btn-primary:hover {
-      box-shadow: 0 6px 22px rgba(37, 99, 235, 0.5);
-      background: #1d4ed8;
-    }
-    .btn-success {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
-    }
-    .btn-success:hover {
-      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.5);
-      background: #047857;
-    }
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
-    .user-pill {
-      background: rgba(59, 130, 246, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      padding: 8px 14px;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      color: #93c5fd;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
-    .user-pill:hover { background: rgba(59, 130, 246, 0.2); }
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #10b981;
-    }
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    .search-bar { display: flex; gap: 12px; margin-bottom: 20px; }
-    .search-input {
-      flex: 1;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 16px;
-      color: #fff;
-      font-size: 0.9rem;
-      outline: none;
-    }
-    .search-input:focus { border-color: var(--primary); }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 20px;
-    }
-    .rec-card {
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      transition: all 0.25s ease;
-    }
-    .rec-card:hover {
-      border-color: rgba(59, 130, 246, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-    }
-    .badge {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      font-size: 0.72rem;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-weight: 600;
-      background: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-    .rec-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      padding-right: 75px;
-    }
-    .rec-date {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-block { width: 100%; justify-content: center; margin-top: 8px; }
-    
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .download-dropdown {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .dl-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-    }
-    .btn-dl-chip {
-      background: rgba(59, 130, 246, 0.2);
-      border: 1px solid rgba(59, 130, 246, 0.4);
-      color: #93c5fd;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.15s;
-    }
-    .btn-dl-chip:hover {
-      background: #2563eb;
-      color: #fff;
-    }
-
-    /* Modal Player */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.88);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .modal-box {
-      background: #111827;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      max-width: 1050px;
-      width: 100%;
-      overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-      display: flex;
-      flex-direction: column;
-    }
-    .modal-header {
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1.5rem;
-    }
-    .modal-close:hover { color: #fff; }
-    .player-stage {
-      position: relative;
-      width: 100%;
-      background: #000;
-      aspect-ratio: 16 / 9;
-      max-height: 70vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #screen-video { width: 100%; height: 100%; object-fit: contain; }
-    #webcam-video {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 220px;
-      aspect-ratio: 16 / 9;
-      border-radius: 10px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
-      background: #000;
-      z-index: 10;
-    }
-    .player-controls {
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: #0d131f;
-      border-top: 1px solid var(--border);
-    }
-    .timeline-slider {
-      flex: 1;
-      height: 6px;
-      border-radius: 3px;
-      accent-color: var(--primary);
-      cursor: pointer;
-    }
-    .time-display {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      font-variant-numeric: tabular-nums;
-    }
-    .welcome-container {
-      max-width: 440px;
-      margin: 40px auto;
-      text-align: center;
-      padding: 36px 30px;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-    }
-    .welcome-icon {
-      width: 64px;
-      height: 64px;
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px auto;
-      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.35);
-    }
-    .welcome-icon svg { width: 34px; height: 34px; fill: white; }
-    .form-group { margin-bottom: 16px; text-align: left; }
-    .form-group label { display: block; font-size: 0.82rem; margin-bottom: 6px; color: var(--text-muted); font-weight: 500; }
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
-  </style>
+  <title>HefShine Recordings Downloader</title>
 </head>
-<body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
-        </div>
-        <div>
-          <h1>HefShine Recordings Portal</h1>
-          <div class="subtitle">Stream & Direct Download Platform</div>
-        </div>
-      </div>
-      <div class="header-controls" id="header-user-controls" style="display: none;">
-        <div class="user-pill" onclick="logout()" title="Click to log out">
-          <div class="status-dot"></div>
-          <span id="user-display">Student</span>
-          <span style="font-size: 0.72rem; color: #60a5fa; margin-left: 4px;">(Sign Out)</span>
-        </div>
-        <button class="btn btn-secondary" onclick="loadRecordings()">🔄 Refresh Classes</button>
-      </div>
-    </header>
+<body style="font-family: sans-serif; max-width: 800px; margin: 30px auto; line-height: 1.6; padding: 0 15px;">
 
-    <!-- Login View -->
-    <div id="welcome-view" class="welcome-container" style="display: none;">
-      <div class="welcome-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-      </div>
-      <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 6px;">Student Login</h2>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Enter your institute credentials to view and watch your class recordings.</p>
+  <h2>HefShine Lecture Recordings</h2>
+  <hr>
 
-      <div id="login-error-msg" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; margin-bottom: 16px; text-align: left;"></div>
-
-      <form onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>Mobile Number / Username</label>
-          <input type="text" id="main-username" class="search-input" style="width: 100%;" placeholder="Enter Mobile Number" required autofocus>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="main-password" class="search-input" style="width: 100%;" placeholder="Enter password" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" id="btn-login-submit" style="padding: 12px; font-size: 0.95rem;">
-          Sign In & View Lectures
+  <!-- Login Area -->
+  <div id="login-section">
+    <h3>Student Login</h3>
+    <div id="login-error" style="color: red; font-weight: bold; margin-bottom: 10px; display: none;"></div>
+    <form onsubmit="handleLogin(event)">
+      <p>
+        <label>Mobile Number / Username:<br>
+          <input type="text" id="username" style="padding: 8px; width: 280px;" required autofocus>
+        </label>
+      </p>
+      <p>
+        <label>Password:<br>
+          <input type="password" id="password" style="padding: 8px; width: 280px;" required>
+        </label>
+      </p>
+      <p>
+        <button type="submit" id="btn-login" style="padding: 8px 20px; font-weight: bold; cursor: pointer;">
+          Sign In
         </button>
-      </form>
-    </div>
-
-    <!-- Dashboard View -->
-    <div id="dashboard-view" class="card" style="display: none;">
-      <div class="search-bar">
-        <input type="text" id="search-box" class="search-input" placeholder="🔍 Search recordings by topic name or date..." oninput="filterRecordings()">
-      </div>
-      <div id="grid-container" class="grid">
-        <div class="empty-state">Loading your recordings...</div>
-      </div>
-    </div>
+      </p>
+    </form>
   </div>
 
-  <!-- Synchronized Audio+Video Player Modal -->
-  <div id="player-modal" class="modal-overlay" onclick="closePlayerModal(event)">
-    <div class="modal-box" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <span id="player-title" style="font-weight: 600;">Class Video</span>
-        <button class="modal-close" onclick="closePlayerModal()">&times;</button>
-      </div>
-      
-      <div class="player-stage">
-        <video id="screen-video" preload="auto" playsinline></video>
-        <video id="webcam-video" preload="auto" playsinline></video>
-      </div>
+  <!-- Dashboard Area -->
+  <div id="dashboard-section" style="display: none;">
+    <p>
+      Logged in as: <b id="user-display"></b> | 
+      <a href="javascript:void(0)" onclick="logout()">[Sign Out]</a> | 
+      <a href="javascript:void(0)" onclick="loadRecordings()">[Refresh List]</a>
+    </p>
+    <hr>
 
-      <div class="player-controls">
-        <button class="btn btn-primary" id="btn-sync-play" onclick="togglePlayPause()" style="padding: 8px 16px;">
-          ▶ Play
-        </button>
-        <span class="time-display" id="time-current">0:00</span>
-        <input type="range" class="timeline-slider" id="timeline" min="0" max="100" value="0" oninput="onSeek(this.value)">
-        <span class="time-display" id="time-total">0:00</span>
-        <button class="btn btn-secondary" onclick="toggleFullscreen()" style="padding: 8px 12px;">⛶ Fullscreen</button>
-      </div>
-    </div>
+    <h3>Available Classes:</h3>
+    <div id="recordings-list">Loading recordings...</div>
   </div>
 
   <script>
-    let allRecordings = [];
-    let activeLinks = {}; // recId -> data
-    const screenVid = document.getElementById('screen-video');
-    const webcamVid = document.getElementById('webcam-video');
-    const playBtn = document.getElementById('btn-sync-play');
-    const timeline = document.getElementById('timeline');
-    const timeCur = document.getElementById('time-current');
-    const timeTot = document.getElementById('time-total');
-    let isSeeking = false;
-
     function getSession() {
       return {
-        username: localStorage.getItem('hef_username'),
+        username: localStorage.getItem('hef_u'),
         jwt: localStorage.getItem('hef_jwt')
       };
     }
 
     async function handleLogin(e) {
       e.preventDefault();
-      const u = document.getElementById('main-username').value.trim();
-      const p = document.getElementById('main-password').value.trim();
-      const btn = document.getElementById('btn-login-submit');
-      const errBox = document.getElementById('login-error-msg');
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+      const err = document.getElementById('login-error');
+      const btn = document.getElementById('btn-login');
 
-      btn.innerText = 'Connecting...';
       btn.disabled = true;
-      errBox.style.display = 'none';
+      btn.innerText = 'Logging in...';
+      err.style.display = 'none';
 
       try {
         const res = await fetch('/api/login', {
@@ -450,42 +72,26 @@
         });
         const data = await res.json();
         if (data.jwt) {
-          localStorage.setItem('hef_username', u);
+          localStorage.setItem('hef_u', u);
           localStorage.setItem('hef_jwt', data.jwt);
-          loadRecordings();
+          init();
         } else {
-          errBox.innerText = data.error || 'Invalid credentials.';
-          errBox.style.display = 'block';
+          err.innerText = data.error || 'Invalid credentials';
+          err.style.display = 'block';
         }
-      } catch (err) {
-        errBox.innerText = 'Server error: ' + err;
-        errBox.style.display = 'block';
+      } catch (e) {
+        err.innerText = 'Connection error: ' + e;
+        err.style.display = 'block';
       } finally {
-        btn.innerText = 'Sign In & View Lectures';
         btn.disabled = false;
+        btn.innerText = 'Sign In';
       }
     }
 
     async function loadRecordings() {
       const session = getSession();
-      const welcomeView = document.getElementById('welcome-view');
-      const dashView = document.getElementById('dashboard-view');
-      const headerControls = document.getElementById('header-user-controls');
-      const grid = document.getElementById('grid-container');
-
-      if (!session.jwt) {
-        welcomeView.style.display = 'block';
-        dashView.style.display = 'none';
-        headerControls.style.display = 'none';
-        return;
-      }
-
-      welcomeView.style.display = 'none';
-      dashView.style.display = 'block';
-      headerControls.style.display = 'flex';
-      document.getElementById('user-display').innerText = `Account: ${session.username}`;
-
-      grid.innerHTML = '<div class="empty-state">Fetching class recordings...</div>';
+      const list = document.getElementById('recordings-list');
+      list.innerHTML = '<i>Fetching classes...</i>';
 
       try {
         const res = await fetch('/api/recordings', {
@@ -493,217 +99,97 @@
         });
         const data = await res.json();
         if (data.error) {
-          if (data.error.includes('expired') || data.error.includes('401')) {
-            logout();
-            return;
-          }
-          grid.innerHTML = `<div class="empty-state" style="color: #ef4444;">${data.error}</div>`;
+          list.innerHTML = '<span style="color: red;">' + data.error + '</span>';
           return;
         }
 
-        allRecordings = data.recordings || [];
-        renderRecordings(allRecordings);
+        const recs = data.recordings || [];
+        if (recs.length === 0) {
+          list.innerHTML = '<i>No recordings found for your account.</i>';
+          return;
+        }
+
+        list.innerHTML = '<ol>' + recs.map(r => {
+          return `
+            <li style="margin-bottom: 20px;">
+              <b>${r.title}</b><br>
+              <small>Date: ${r.readyAt ? new Date(r.readyAt).toLocaleString() : 'N/A'}</small><br>
+              <div id="box-${r.id}" style="margin-top: 8px;">
+                <button onclick="getLinks('${r.id}')" style="padding: 6px 14px; cursor: pointer;">
+                  Get Single Video File
+                </button>
+              </div>
+            </li>
+          `;
+        }).join('') + '</ol>';
+
       } catch (e) {
-        grid.innerHTML = `<div class="empty-state" style="color: #ef4444;">Connection failed: ${e}</div>`;
+        list.innerHTML = '<span style="color: red;">Error: ' + e + '</span>';
       }
     }
 
-    function renderRecordings(recs) {
-      const grid = document.getElementById('grid-container');
-      if (recs.length === 0) {
-        grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">No class recordings found on your student portal.</div>';
-        return;
-      }
-
-      grid.innerHTML = recs.map(r => {
-        const dateStr = r.readyAt ? new Date(r.readyAt).toLocaleString() : 'N/A';
-        return `
-          <div class="rec-card">
-            <span class="badge">Lecture Ready</span>
-            <div>
-              <div class="rec-title">${r.title}</div>
-              <div class="rec-date">📅 ${dateStr}</div>
-            </div>
-            
-            <div class="button-group" id="card-action-${r.id}">
-              <button class="btn btn-success btn-block" onclick="playLecture('${r.id}', '${r.title}')">
-                ▶ Watch Lecture with Audio
-              </button>
-              <button class="btn btn-primary btn-block" onclick="fetchDownloads('${r.id}')">
-                ⬇ Download Files (Screen / Audio)
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function getMediaData(recId) {
-      if (activeLinks[recId]) return activeLinks[recId];
+    async function getLinks(id) {
+      const box = document.getElementById('box-' + id);
       const session = getSession();
-      const res = await fetch(`/api/play?id=${encodeURIComponent(recId)}`, {
-        headers: { 'Authorization': 'Bearer ' + session.jwt }
-      });
-      const data = await res.json();
-      if (!data.error) activeLinks[recId] = data;
-      return data;
-    }
-
-    async function playLecture(recId, title) {
-      const btnGroup = document.getElementById('card-action-' + recId);
-      const originalHtml = btnGroup.innerHTML;
-      btnGroup.innerHTML = '<div style="font-size: 0.8rem; color: #93c5fd; text-align: center; padding: 10px;">Connecting video streams...</div>';
+      box.innerHTML = '<i>Loading video source...</i>';
 
       try {
-        const data = await getMediaData(recId);
-        btnGroup.innerHTML = originalHtml;
+        const res = await fetch(`/api/play?id=${encodeURIComponent(id)}`, {
+          headers: { 'Authorization': 'Bearer ' + session.jwt }
+        });
+        const data = await res.json();
         if (data.error) {
-          alert("Error: " + data.error);
-          return;
-        }
-        openDualPlayer(data.screenshare_url, data.webcam_url, title);
-      } catch (e) {
-        btnGroup.innerHTML = originalHtml;
-        alert("Failed to load video: " + e);
-      }
-    }
-
-    async function fetchDownloads(recId) {
-      const btnGroup = document.getElementById('card-action-' + recId);
-      const originalHtml = btnGroup.innerHTML;
-      btnGroup.innerHTML = '<div style="font-size: 0.8rem; color: #93c5fd; text-align: center; padding: 10px;">Generating download links...</div>';
-
-      try {
-        const data = await getMediaData(recId);
-        if (data.error) {
-          btnGroup.innerHTML = originalHtml;
-          alert("Error: " + data.error);
+          box.innerHTML = '<span style="color:red;">' + data.error + '</span>';
           return;
         }
 
-        btnGroup.innerHTML = `
-          <button class="btn btn-success btn-block" onclick="playLecture('${recId}', '${data.title || 'Lecture'}')">
-            ▶ Watch Lecture with Audio
-          </button>
-          <div class="download-dropdown">
-            <div class="dl-row">
-              <span>🖥️ Screen Video</span>
-              <a href="${data.screenshare_url}" target="_blank" download class="btn-dl-chip">⬇ Download Screen</a>
-            </div>
-            <div class="dl-row">
-              <span>🎙️ Teacher Audio</span>
-              <a href="${data.webcam_url}" target="_blank" download class="btn-dl-chip">⬇ Download Audio</a>
-            </div>
-            <div class="dl-row">
-              <span>🌐 BBB Portal</span>
-              <a href="${data.playback_url}" target="_blank" class="btn-dl-chip">↗ BigBlueButton</a>
-            </div>
+        box.innerHTML = `
+          <div style="background: #f4f4f4; padding: 12px; border: 1px solid #ddd; margin-top: 5px;">
+            <p style="margin: 0 0 8px 0;"><b>Download Single File:</b></p>
+            <p style="margin: 0 0 6px 0;">
+              👉 <a href="${data.screenshare_url}" download="Class_Screen_Recording.webm" target="_blank" style="font-size: 16px; font-weight: bold;">
+                Download Screen Video (.webm)
+              </a>
+            </p>
+            <p style="margin: 0 0 6px 0;">
+              👉 <a href="${data.webcam_url}" download="Teacher_Audio.webm" target="_blank">
+                Download Audio / Webcam (.webm)
+              </a>
+            </p>
+            <p style="margin: 8px 0 0 0;">
+              🌐 <a href="${data.playback_url}" target="_blank">Open Full Class in BigBlueButton Player</a>
+            </p>
           </div>
         `;
       } catch (e) {
-        btnGroup.innerHTML = originalHtml;
-        alert("Failed to get download links: " + e);
+        box.innerHTML = '<span style="color: red;">Error: ' + e + '</span>';
       }
-    }
-
-    function openDualPlayer(screenUrl, webcamUrl, title) {
-      document.getElementById('player-title').innerText = title + " (Screen & Audio Synced)";
-      
-      screenVid.src = screenUrl;
-      webcamVid.src = webcamUrl;
-
-      screenVid.muted = true;
-      webcamVid.muted = false;
-
-      document.getElementById('player-modal').style.display = 'flex';
-
-      screenVid.onloadedmetadata = () => {
-        timeline.max = Math.floor(screenVid.duration);
-        timeTot.innerText = formatTime(screenVid.duration);
-      };
-
-      webcamVid.ontimeupdate = () => {
-        if (!isSeeking && Math.abs(screenVid.currentTime - webcamVid.currentTime) > 0.4) {
-          screenVid.currentTime = webcamVid.currentTime;
-        }
-        if (!isSeeking) {
-          timeline.value = Math.floor(webcamVid.currentTime);
-          timeCur.innerText = formatTime(webcamVid.currentTime);
-        }
-      };
-
-      togglePlayPause(true);
-    }
-
-    function togglePlayPause(forcePlay = null) {
-      const shouldPlay = forcePlay !== null ? forcePlay : webcamVid.paused;
-      if (shouldPlay) {
-        screenVid.currentTime = webcamVid.currentTime;
-        Promise.all([screenVid.play(), webcamVid.play()]).then(() => {
-          playBtn.innerText = '⏸ Pause';
-        }).catch(() => {});
-      } else {
-        screenVid.pause();
-        webcamVid.pause();
-        playBtn.innerText = '▶ Play';
-      }
-    }
-
-    function onSeek(val) {
-      isSeeking = true;
-      const targetTime = parseFloat(val);
-      screenVid.currentTime = targetTime;
-      webcamVid.currentTime = targetTime;
-      timeCur.innerText = formatTime(targetTime);
-      isSeeking = false;
-    }
-
-    function formatTime(sec) {
-      if (!Number.isFinite(sec)) return "0:00";
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-
-    function toggleFullscreen() {
-      const stage = document.querySelector('.player-stage');
-      if (!document.fullscreenElement) {
-        stage.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
-    }
-
-    function closePlayerModal(e) {
-      if (!e || e.target.id === 'player-modal' || e.target.classList.contains('modal-close')) {
-        screenVid.pause();
-        webcamVid.pause();
-        screenVid.removeAttribute('src');
-        webcamVid.removeAttribute('src');
-        document.getElementById('player-modal').style.display = 'none';
-      }
-    }
-
-    function filterRecordings() {
-      const q = document.getElementById('search-box').value.toLowerCase().trim();
-      if (!q) {
-        renderRecordings(allRecordings);
-        return;
-      }
-      const filtered = allRecordings.filter(r => 
-        (r.title && r.title.toLowerCase().includes(q)) || 
-        (r.readyAt && r.readyAt.toLowerCase().includes(q))
-      );
-      renderRecordings(filtered);
     }
 
     function logout() {
-      localStorage.removeItem('hef_username');
+      localStorage.removeItem('hef_u');
       localStorage.removeItem('hef_jwt');
-      loadRecordings();
+      init();
     }
 
-    window.onload = loadRecordings;
+    function init() {
+      const session = getSession();
+      const loginSec = document.getElementById('login-section');
+      const dashSec = document.getElementById('dashboard-section');
+
+      if (!session.jwt) {
+        loginSec.style.display = 'block';
+        dashSec.style.display = 'none';
+      } else {
+        loginSec.style.display = 'none';
+        dashSec.style.display = 'block';
+        document.getElementById('user-display').innerText = session.username;
+        loadRecordings();
+      }
+    }
+
+    window.onload = init;
   </script>
+
 </body>
 </html>
