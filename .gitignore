@@ -1,0 +1,10 @@
+*.mp4
+*.webm
+*.mkv
+*.avi
+downloads/*
+ffmpeg.exe
+__pycache__/
+*.pyc
+config.json
+
